@@ -56,6 +56,14 @@ module.exports = function (app, database) {
     database
       .collection("timetable")
       .find({})
+      .project({
+        Subject: 1,
+        Catalog: 1,
+        "Course Title": 1,
+        Section: 1,
+        "Class Nbr": 1,
+        _id: 0,
+      })
       .toArray((err, item) => {
         if (err) result.send(error);
         else result.send(item);
