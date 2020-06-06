@@ -83,11 +83,12 @@ module.exports = function (app, database) {
 
   // get Prerequisites
   app.get("/prst", (request, result) => {
-    let courseId = null;
-    database.collection("prerequisite").findOne(courseId, (err, prereqs) => {
-      if (err) result.send(err);
-      else result.send(prereqs);
-    });
+    database
+      .collection("prerequisite")
+      .findOne({ COURSE: request.query.courseString }, (err, prereqs) => {
+        if (err) result.send(err);
+        else result.send(prereqs);
+      });
   });
 
   // get class timings
