@@ -1,18 +1,18 @@
 module.exports = function (app, database) {
-  app.put("/student/:id", (request, result) => {
-    const tt = {
-      Monday: [],
-      Tuesday: [],
-      Wednesday: [],
-      Thursday: [],
-      Friday: [],
-      Saturday: [],
-    };
-    database.collection("studtt").updateOne(id, tt, (err) => {
-      if (err) result.send(err);
-      else result.send("successful");
-    });
-  });
+  // app.put("/student/:id", (request, result) => {
+  //   const tt = {
+  //     Monday: [],
+  //     Tuesday: [],
+  //     Wednesday: [],
+  //     Thursday: [],
+  //     Friday: [],
+  //     Saturday: [],
+  //   };
+  //   database.collection("studtt").updateOne(id, tt, (err) => {
+  //     if (err) result.send(err);
+  //     else result.send("successful");
+  //   });
+  // });
 
   // get students timetable
   app.get("/student/tt", (request, result) => {
