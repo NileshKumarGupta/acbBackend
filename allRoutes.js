@@ -68,15 +68,21 @@ module.exports = function (app, database) {
 
   // get Prerequisites
   app.get("/prst", (request, result) => {
+    // the parameter is always a string
+    courseArr = [];
+    request.query.courseIdentity
+      .split(",")
+      .forEach((str) => courseArr.push(str));
+    print(courseArr);
     database
       .collection("prerequisite")
-      .findOne(
-        { Subject: request.param.Subject, Catalog: request.param.Catalog },
-        (err, prereqs) => {
-          if (err) result.send(err);
-          else result.send(prereqs);
-        }
-      );
+      .find({
+        courseIdentify: { $in: courseArr },
+      })
+      .toArray((err, prereqs) => {
+        if (err) result.send(err);
+        else result.send(prereqs);
+      });
   });
 
   // get class timings
