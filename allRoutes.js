@@ -88,7 +88,8 @@ module.exports = function (app, database) {
   app.get("/timings", (request, result) => {
     database
       .collection("timetable")
-      .findOne({ "Class Nbr": request.query.clsNbr }, (err, classDetails) => {
+      .find({ "Class Nbr": request.query.clsNbr })
+      .toArray((err, classDetails) => {
         if (err) result.send(err);
         else result.send(classDetails);
       });
