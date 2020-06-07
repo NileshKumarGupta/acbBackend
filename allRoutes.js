@@ -68,24 +68,22 @@ module.exports = function (app, database) {
 
   // get Prerequisites
   app.get("/prst", (request, result) => {
-    console.log(request.query.courseNums);
     database
       .collection("prerequisite")
-      .find({})
-      // .find({ COURSE: request.query.courseNums })
-      // .find({ _id: "5eba45d1219a693c4c589ed0" })
-      .toArray((err, prereqs) => {
-        if (err) result.send(err);
-        else result.send(prereqs);
-      });
+      .findOne(
+        { Subject: request.param.Subject, Catalog: request.param.Catalog },
+        (err, prereqs) => {
+          if (err) result.send(err);
+          else result.send(prereqs);
+        }
+      );
   });
 
   // get class timings
   app.get("/timings", (request, result) => {
     database
       .collection("timetable")
-      .findOne({ "Class Nbr": request.query.clsNbr })
-      .toArray((err, classDetails) => {
+      .findOne({ "Class Nbr": request.query.clsNbr }, (err, classDetails) => {
         if (err) result.send(err);
         else result.send(classDetails);
       });
