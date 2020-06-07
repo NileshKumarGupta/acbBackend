@@ -94,7 +94,27 @@ module.exports = function (app, database) {
       });
   });
 
-  // generel
+  app.get("/exams", (request, result) => {
+    clsnrs = new Set();
+    request.query.clsnr.split(",").forEach((str) => {
+      clsnrs.add(str.toUpperCase());
+    });
+    database
+      .collection("timetable")
+      .find({ "Class Nbr": { $in: Array.from(clsnrs) } })
+      .project({
+        "Course Title": true,
+        "Exam Tm Cd": true,
+        "Exam Date": true,
+        _id: false,
+      })
+      .toArray((err, examDetails) => {
+        if (err) result.send(err);
+        else result.send(examDetails);
+      });
+  });
+
+  // general
 
   app.get("/", (requset, result) => {
     result.send("Hi there!!!, This API is running");
