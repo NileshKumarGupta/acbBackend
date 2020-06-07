@@ -26,5 +26,5 @@ client.connect((err, result) => {
   if (err) return console.log(err);
   database = result.db("acbData");
   require("./allRoutes")(app, database);
-  console.log("success");
+  console.log("success live on port " + process.env.PORT);
 });

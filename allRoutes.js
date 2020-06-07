@@ -1,19 +1,4 @@
 module.exports = function (app, database) {
-  // app.put("/student/:id", (request, result) => {
-  //   const tt = {
-  //     Monday: [],
-  //     Tuesday: [],
-  //     Wednesday: [],
-  //     Thursday: [],
-  //     Friday: [],
-  //     Saturday: [],
-  //   };
-  //   database.collection("studtt").updateOne(id, tt, (err) => {
-  //     if (err) result.send(err);
-  //     else result.send("successful");
-  //   });
-  // });
-
   // get students timetable
   app.get("/student/tt", (request, result) => {
     console.log(request.query.studid);
@@ -83,9 +68,13 @@ module.exports = function (app, database) {
 
   // get Prerequisites
   app.get("/prst", (request, result) => {
+    console.log(request.query.courseNums);
     database
       .collection("prerequisite")
-      .findOne({ COURSE: request.query.courseString }, (err, prereqs) => {
+      .find({})
+      // .find({ COURSE: request.query.courseNums })
+      // .find({ _id: "5eba45d1219a693c4c589ed0" })
+      .toArray((err, prereqs) => {
         if (err) result.send(err);
         else result.send(prereqs);
       });
@@ -95,7 +84,8 @@ module.exports = function (app, database) {
   app.get("/timings", (request, result) => {
     database
       .collection("timetable")
-      .findOne({ "Class Nbr": request.query.clsNbr }, (err, classDetails) => {
+      .findOne({ "Class Nbr": request.query.clsNbr })
+      .toArray((err, classDetails) => {
         if (err) result.send(err);
         else result.send(classDetails);
       });
