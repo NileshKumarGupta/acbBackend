@@ -69,15 +69,14 @@ module.exports = function (app, database) {
   // get Prerequisites
   app.get("/prst", (request, result) => {
     // the parameter is always a string
-    courseArr = [];
+    courseArr = new Set();
     request.query.courseIdentity
       .split(",")
-      .forEach((str) => courseArr.push(str));
-    print(courseArr);
+      .forEach((str) => courseArr.add(str));
     database
       .collection("prerequisite")
       .find({
-        courseIdentify: { $in: courseArr },
+        courseIdentify: { $in: Array.from(courseArr) },
       })
       .toArray((err, prereqs) => {
         if (err) result.send(err);
