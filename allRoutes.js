@@ -1,14 +1,14 @@
 module.exports = function (app, database) {
   // get students timetable
   app.get("/student/tt", (request, result) => {
-    console.log(request.query.studid);
+    // console.log(request.query.studid);
     database
       .collection("studtt")
       .findOne({ studid: request.query.studid }, (err, tt) => {
         if (err) result.send(err);
         else {
           result.send(tt);
-          console.log(tt);
+          // console.log(tt);
         }
       });
   });
@@ -24,14 +24,14 @@ module.exports = function (app, database) {
         tt: request.body.tt,
       },
     };
-    console.log(request.body.tt);
+    // console.log(request.body.tt);
     database.collection("studtt").updateOne(filter, details, (err, res) => {
       if (err) {
         result.send(err);
         console.log(err);
       } else {
-        result.send("success");
-        console.log("success");
+        result.send("successfully updated");
+        console.log("successfully updated");
       }
     });
   });
