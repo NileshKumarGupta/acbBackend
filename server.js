@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
 const cors = require("cors");
-// const port = 3000;
 let database = null;
 require("dotenv/config");
 
@@ -14,13 +13,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-const client = new MongoClient(
-  "mongodb+srv://nilesh:augsd@cluster0-afaic.mongodb.net/test?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+const client = new MongoClient(process.env.DB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 client.connect((err, result) => {
   if (err) return console.log(err);
