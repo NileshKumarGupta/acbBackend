@@ -61,8 +61,9 @@ module.exports = function (app, database) {
   // get Student List
   app.get("/student", (request, result) => {
     database
-      .collection("studentList")
+      .collection("studtt")
       .find({})
+      .project({ studid: 1, name: 1 })
       .toArray((err, item) => {
         if (err) result.send(error);
         else result.send(item);
