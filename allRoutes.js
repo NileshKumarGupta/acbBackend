@@ -41,6 +41,7 @@ module.exports = function (app, database) {
     database
       .collection("timetable")
       .find({})
+      .sort({ Subject: 1, Catalog: 1 })
       .project({
         Subject: 1,
         Catalog: 1,
@@ -50,8 +51,10 @@ module.exports = function (app, database) {
         _id: 0,
       })
       .toArray((err, item) => {
-        if (err) result.send(error);
-        else result.send(item);
+        if (err) {
+          result.send(err);
+          console.log(err);
+        } else result.send(item);
       });
   });
 
