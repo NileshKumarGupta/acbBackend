@@ -41,7 +41,7 @@ module.exports = function (app, database) {
     database
       .collection("timetable")
       .find({})
-      .sort({ Subject: 1, Catalog: 1 })
+      .sort({ Subject: 1, Catalog: 1, Section: 1 })
       .project({
         Subject: 1,
         Catalog: 1,
