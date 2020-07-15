@@ -119,6 +119,60 @@ module.exports = function (app, database) {
       });
   });
 
+  // update student list
+
+  app.put("/sList", (request, result) => {
+    let filter = {
+      studid: request.body.id,
+    };
+    console.log("request received");
+    let details = {
+      $set: {
+        studid: request.body.id,
+        name: request.body.name,
+      },
+    };
+    database
+      .collection("studentList")
+      .updateOne(filter, details, { upsert: true }, (err, res) => {
+        if (err) {
+          result.send(err);
+        } else {
+          result.send("successfully updated");
+        }
+      });
+  });
+
+  // update timetable
+  // remove all entries of timetable
+  app.put("/ttDelete", (request, result) => {
+    database
+      .collection("timetable")
+      .deleteMany({})
+      .then((res) => result.send("All clear"))
+      .catch((err) => result.send(err));
+  });
+
+  app.put("/ttUpdate", (request, result) => {
+    database.collection("timetable").insertOne();
+    console.log("request received");
+    let details = {
+      $set: {
+        studid: request.body.id,
+        name: request.body.name,
+      },
+    };
+    database
+      .collection("studentList")
+      .updateOne(filter, details, { upsert: true }, (err, res) => {
+        if (err) {
+          result.send(err);
+        } else {
+          result.send("successfully updated");
+        }
+      });
+  });
+
   // general
 
   app.get("/", (requset, result) => {
