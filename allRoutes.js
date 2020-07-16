@@ -54,7 +54,9 @@ module.exports = function (app, database) {
         if (err) {
           result.send(err);
           console.log(err);
-        } else result.send(item);
+        } else {
+          result.send(item);
+        }
       });
   });
 
@@ -70,7 +72,7 @@ module.exports = function (app, database) {
       });
   });
 
-  // get Prerequisites
+  // get Prerlocalhost:3000equisites
   app.get("/prst", (request, result) => {
     // the parameter is always a string
     courseArr = new Set();
