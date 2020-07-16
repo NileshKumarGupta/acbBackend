@@ -143,6 +143,42 @@ module.exports = function (app, database) {
       });
   });
 
+  // update student list
+  // remove all entries of student list
+  app.put("/slDelete", (request, result) => {
+    database
+      .collection("studtt")
+      .deleteMany({})
+      .then((res) => result.send("All clear"))
+      .catch((err) => result.send(err));
+  });
+
+  app.post("/slUpdate", (request, result) => {
+    let data = request.body.studentData;
+    data.forEach((el) => {
+      el["tt"] = [
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+      ];
+    });
+    database.collection("studtt").insertMany(data, (err, res) => {
+      if (err) {
+        result.send(err);
+        console.log(err);
+      } else {
+        result.send(res);
+      }
+    });
+  });
+
   // update timetable
   // remove all entries of timetable
   app.put("/ttDelete", (request, result) => {
@@ -153,22 +189,38 @@ module.exports = function (app, database) {
       .catch((err) => result.send(err));
   });
 
-  app.put("/ttUpdate", (request, result) => {
-    database.collection("timetable").insertOne();
-    console.log("request received");
-    let details = {
-      $set: {
-        studid: request.body.id,
-        name: request.body.name,
-      },
-    };
+  app.post("/ttUpdate", (request, result) => {
     database
-      .collection("studentList")
-      .updateOne(filter, details, { upsert: true }, (err, res) => {
+      .collection("timetable")
+      .insertMany(request.body.courseData, (err, res) => {
         if (err) {
           result.send(err);
+          console.log(err);
         } else {
-          result.send("successfully updated");
+          result.send(res);
+        }
+      });
+  });
+
+  // update prerequisite
+  // remove all entries of prerequisite
+  app.put("/pqDelete", (request, result) => {
+    database
+      .collection("prerequisite")
+      .deleteMany({})
+      .then((res) => result.send("All clear"))
+      .catch((err) => result.send(err));
+  });
+
+  app.post("/pqUpdate", (request, result) => {
+    database
+      .collection("prerequisite")
+      .insertMany(request.body.courseData, (err, res) => {
+        if (err) {
+          result.send(err);
+          console.log(err);
+        } else {
+          result.send(res);
         }
       });
   });
