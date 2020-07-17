@@ -169,6 +169,8 @@ module.exports = function (app, database) {
         "-,-,-,-,-,-,",
         "-,-,-,-,-,-,",
         "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
       ];
     });
     database.collection("studtt").insertMany(data, (err, res) => {
