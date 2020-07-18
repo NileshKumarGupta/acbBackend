@@ -45,7 +45,7 @@ module.exports = function (app, database) {
       .project({
         Subject: 1,
         Catalog: 1,
-        "COURSETITLE": 1,
+        "Course TItle": 1,
         Section: 1,
         "Class Nbr": 1,
         _id: 0,
@@ -110,7 +110,7 @@ module.exports = function (app, database) {
       .collection("timetable")
       .find({ "Class Nbr": { $in: Array.from(clsnrs) } })
       .project({
-        "COURSETITLE": true,
+        "Course TItle": true,
         "Exam Tm Cd": true,
         "Exam Date": true,
         _id: false,
