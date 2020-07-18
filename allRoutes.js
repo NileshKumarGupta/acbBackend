@@ -45,7 +45,7 @@ module.exports = function (app, database) {
       .project({
         Subject: 1,
         Catalog: 1,
-        "Course Title": 1,
+        "COURSETITLE": 1,
         Section: 1,
         "Class Nbr": 1,
         _id: 0,
@@ -72,7 +72,7 @@ module.exports = function (app, database) {
       });
   });
 
-  // get Prerlocalhost:3000equisites
+  // get Prerequisites
   app.get("/prst", (request, result) => {
     // the parameter is always a string
     courseArr = new Set();
@@ -110,7 +110,7 @@ module.exports = function (app, database) {
       .collection("timetable")
       .find({ "Class Nbr": { $in: Array.from(clsnrs) } })
       .project({
-        "Course Title": true,
+        "COURSETITLE": true,
         "Exam Tm Cd": true,
         "Exam Date": true,
         _id: false,
