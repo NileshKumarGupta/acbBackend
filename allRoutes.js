@@ -13,6 +13,19 @@ module.exports = function (app, database) {
       });
   });
 
+  // alt
+  app.get("/student2/tt", (request, result) => {
+    // console.log(request.query.studid);
+    database
+      .collection("studtt2")
+      .findOne({ studid: request.query.studid }, (err, tt) => {
+        if (err) result.send(err);
+        else {
+          result.send(tt);
+          // console.log(tt);
+        }
+      });
+  });
   // update timetable of students
   app.put("/student/:id", (request, result) => {
     let filter = {
@@ -26,6 +39,29 @@ module.exports = function (app, database) {
     };
     // console.log(request.body.tt);
     database.collection("studtt").updateOne(filter, details, (err, res) => {
+      if (err) {
+        result.send(err);
+        console.log(err);
+      } else {
+        result.send("successfully updated");
+        console.log("successfully updated");
+      }
+    });
+  });
+
+  // update timetable of students
+  app.put("/student2/:id", (request, result) => {
+    let filter = {
+      studid: request.body.id,
+    };
+    let details = {
+      $set: {
+        studid: request.body.id,
+        tt: request.body.tt,
+      },
+    };
+    // console.log(request.body.tt);
+    database.collection("studtt2").updateOne(filter, details, (err, res) => {
       if (err) {
         result.send(err);
         console.log(err);
@@ -64,6 +100,18 @@ module.exports = function (app, database) {
   app.get("/student", (request, result) => {
     database
       .collection("studtt")
+      .find({})
+      .project({ studid: 1, name: 1 })
+      .toArray((err, item) => {
+        if (err) result.send(error);
+        else result.send(item);
+      });
+  });
+
+  // alt
+  app.get("/student2", (request, result) => {
+    database
+      .collection("studtt2")
       .find({})
       .project({ studid: 1, name: 1 })
       .toArray((err, item) => {
@@ -174,6 +222,43 @@ module.exports = function (app, database) {
       ];
     });
     database.collection("studtt").insertMany(data, (err, res) => {
+      if (err) {
+        result.send(err);
+        console.log(err);
+      } else {
+        result.send(res);
+      }
+    });
+  });
+
+  // alt
+  app.put("/slDelete2", (request, result) => {
+    database
+      .collection("studtt2")
+      .deleteMany({})
+      .then((res) => result.send("All clear"))
+      .catch((err) => result.send(err));
+  });
+
+  app.post("/slUpdate2", (request, result) => {
+    let data = request.body.studentData;
+    data.forEach((el) => {
+      el["tt"] = [
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+        "-,-,-,-,-,-,",
+      ];
+    });
+    database.collection("studtt2").insertMany(data, (err, res) => {
       if (err) {
         result.send(err);
         console.log(err);
