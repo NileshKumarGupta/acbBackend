@@ -82,6 +82,7 @@ module.exports = function (app, database) {
         Subject: 1,
         Catalog: 1,
         COURSETITLE: 1,
+        "Course Title": 1,
         Section: 1,
         "Class Nbr": 1,
         _id: 0,
